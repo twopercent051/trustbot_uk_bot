@@ -62,13 +62,19 @@ async def mailing_start(callback: CallbackQuery):
 async def mailing_finish(message: Message):
     mailing_text = message.text
     list_users = await db_connector.get_users()
+    forbidden_user_counter = 0
     for user_id in list_users:
-        await bot.send_message(chat_id=user_id, text=mailing_text)
-        await asyncio.sleep(1)
+        try:
+            await bot.send_message(chat_id=user_id, text=mailing_text)
+            await asyncio.sleep(1)
+        except:
+            forbidden_user_counter += 1
     text_to_admin = [
-        f'Успешно разослали текст по {len(list_users)} пользователям!'
+        f'Успешно разослали текст по {len(list_users) - forbidden_user_counter} пользователям!'
     ]
-    await message.answer(' '.join(text_to_admin), reply_markup=inline.home_keyboard)
+    if forbidden_user_counter > 0:
+        text_to_admin.append(f'{forbidden_user_counter} пользователям не удалось доставить сообщение')
+    await message.answer('\n'.join(text_to_admin), reply_markup=inline.home_keyboard)
 
 
 async def get_user_info_start(callback: CallbackQuery):
