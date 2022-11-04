@@ -486,7 +486,6 @@ async def you_are_blocked_by_callback(callback: CallbackQuery):
 
 
 def register_user(dp: Dispatcher):
-    all_types = ['text', 'photo', 'audio', 'video', 'voice', 'document', 'animation', 'sticker', 'video_note']
     dp.register_message_handler(you_are_blocked_by_message, state='*', is_blocked=True)
     dp.register_message_handler(user_start, commands=["start"], state='*', is_loged=False)
     dp.register_message_handler(main_menu_by_message, commands=["start"], state='*', is_loged=True)

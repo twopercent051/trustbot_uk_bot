@@ -81,5 +81,4 @@ async def filter_block_filter():
         result.append(int(item[0]))
     return result
 
-# sql_start()
-# asyncio.run(get_username())
+
